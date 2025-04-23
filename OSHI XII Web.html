@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSHI XII - Greater Living</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* === CSS Reset & Base Styles === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        /* === Font Faces === */
+        @font-face {
+            font-family: 'SuperClarendon';
+            src: url('path-to-your-font/SuperClarendon.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        /* === Color Variables === */
+        :root {
+            --beige: #D3B896;
+            --black: #000000;
+            --white: #FFFFFF;
+            --dark-beige: #b89a75;
+            --gold: #FFD700;
+        }
+        
+        /* === Typography === */
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--black);
+            background-color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+        
+        .highlight {
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            border-left: 3px solid var(--gold);
+            padding-left: 15px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        /* === Layout === */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        /* === Header & Navigation === */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background-color: var(--beige);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .menu-text {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: var(--black);
+            transition: all 0.3s ease;
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        } 
+        
+        .logo-container img {
+            height: 40px;
+        }
+        
+        .inquiry-btn {
+            padding: 8px 15px;
+            border: 1px solid var(--black);
+            background: transparent;
+            color: var(--black);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .inquiry-btn:hover {
+            background-color: var(--black);
+            color: var(--beige);
+        }
+        
+        /* === Mobile Menu === */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            max-width: 300px;
+            height: 100vh;
+            background-color: var(--white);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            padding: 80px 30px 30px;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            left: 0;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+        }
+        
+        .mobile-menu li {
+            margin-bottom: 20px;
+        }
+        
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--black);
+            font-size: 18px;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* === Hero Section === */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 40px;
+            position: relative;
+            overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+            margin-top: -80px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 54px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        
+        .hero p {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: 1px solid var(--beige);
+            background: transparent;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-filled {
+            background-color: var(--beige);
+        }
+        
+        .btn-filled:hover {
+            background-color: var(--dark-beige);
+            border-color: var(--dark-beige);
+        }
+        
+        /* === About Section === */
+        .about {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about h2 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        
+        .about p {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        /* === Services Section === */
+        .services {
+            padding: 100px 0;
+            background-color: var(--white); 
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-header h2 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .service-card {
+            border: 1px solid var(--beige);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .service-card-image-container {
+            height: 220px;
+            overflow: hidden;
+        }
+        
+        .service-card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .service-card-content {
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-card:hover .service-card-image {
+            transform: scale(1.1);
+        }
+        
+        .service-card h3 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .service-card p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* === Contact Section === */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+        
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .contact-container h2 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 36px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .contact-container p {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .contact-item {
+            background-color: rgba(211, 184, 150, 0.1);
+            padding: 30px 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-item h3 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--black);
+        }
+        
+        .contact-item p {
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        /* Phone number styles for click-to-call */
+        .phone-link {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .phone-link:hover {
+            color: var(--dark-beige);
+        }
+        
+        .contact-social {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .contact-social a {
+            color: var(--black);
+            font-size: 24px;
+            transition: all 0.3s ease;
+            background-color: rgba(211, 184, 150, 0.2);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .contact-social a:hover {
+            color: var(--white);
+            background-color: var(--dark-beige);
+        }
+        
+        .contact-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        /* === Popup Form === */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1002;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background-color: var(--white);
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            border-radius: 8px;
+        }
+        
+        .popup-content h2 {
+            font-family: 'SuperClarendon', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .popup-content p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--black);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--beige);
+            outline: none;
+        }
+        
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* === Footer === */
+        footer {
+            background-color: var(--beige);
+            padding: 40px 0;
+            color: var(--black);
+        }
+        
+        .footer-bottom {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 14px;
+        }
+        
+        .footer-divider {
+            opacity: 0.5;
+        }
+        
+        footer a {
+            color: var(--black);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        footer a:hover {
+            opacity: 0.7;
+        }
+        
+        /* === Responsive Design === */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 30px;
+            }
+            
+            .hero {
+                padding: 0 30px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .service-card-image-container {
+                height: 200px;
+            }
+            
+            .service-card-content {
+                padding: 25px;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-item {
+                min-width: 100%;
+            }
+            
+            header {
+                padding: 15px 20px;
+            }
+            
+            .inquiry-btn {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding-top: 70px;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .logo-container img {
+                height: 30px;
+            }
+            
+            .service-card-image-container {
+                height: 180px;
+            }
+            
+            .service-card-content {
+                padding: 20px;
+            }
+            
+            .contact-item {
+                padding: 20px 15px;
+            }
+            
+            .contact-social a {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            /* Make phone numbers more tappable on mobile */
+            .phone-link {
+                padding: 8px 0;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="main-header">
+        <div class="menu-container">
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span class="menu-text">Menu</span>
+        </div>
+        
+        <div class="logo-container">
+            <img src="/LOGO BIRD-01.png" alt="OSHI XII Logo">
+        </div>
+        
+        <button class="inquiry-btn" id="open-inquiry">Submit Inquiry</button>
+    </header>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#properties">Properties & Experiences</a></li>
+            <li><a href="#nutrition">Nutrition & Longevity</a></li>
+            <li><a href="#vacation">Vacation Rentals</a></li>
+            <li><a href="#lifestyle">Lifestyle Management</a></li>
+            <li><a href="#concierge">Concierge Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+    
+    <div class="menu-overlay"></div>
+    
+    <!-- Hero -->
+    <section class="hero"> 
+        <div class="hero-content">
+            <h1>Experience Greater Living</h1>
+            <p>Discover Africa and the world with our curated collection of premium experiences, properties, and services.</p>
+            <div class="hero-buttons">
+                <a href="#properties" class="btn btn-filled">Explore</a>
+                <a href="#contact" class="btn">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <h2>About OSHI XII</h2>
+                <p>Welcome to OSHI XII, where we celebrate the art of greater living. Under the OSHI XII umbrella, our brand encompasses premium goods & services, hospitality, real estate and tourism, offering a curated collection of products and experiences that embody the essence of greater living.</p>
+                <p>Discover Africa and the rest of the world with us as we embark on a journey of exploration and discovery. From bespoke experiences and unforgettable hospitality to immersive tourism adventures, OSHI XII Greater Living invites you to experience the finer things in life.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties & Experiences with Images -->
+    <section id="properties" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Properties & Experiences</h2>
+                <p>Enjoy Life Properly With Us. Your Expert in Lifestyle management and Travel.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Premium residence in countryside" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Premium Residences</h3>
+                        <p>Thoughtfully selected properties in inspiring locations across Africa.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="African safari experience with wildlife and mountains" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Safari Experiences</h3>
+                        <p>Curated wildlife adventures that connect you with nature's majesty.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Luxury apartment with city skyline view" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Urban Retreats</h3>
+                        <p>Elevated city accommodations with premium amenities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition & Longevity with Food Images -->
+    <section id="nutrition" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nutrition & Longevity</h2>
+                <p>Holistic wellness programs designed for optimal health and vitality.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Family enjoying meal" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Personalized Nutrition</h3>
+                        <p>Custom meal plans tailored to your unique biochemistry.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Group yoga training" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Wellness Retreats</h3>
+                        <p>Transformative programs in breathtaking locations.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Physiotherapist working with client on rehabilitation exercises" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Longevity Protocols</h3>
+                        <p>Science-backed approaches to extending healthspan with personalized therapies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vacation Rentals with Images -->
+    <section id="vacation" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Vacation Rentals</h2>
+                <p>Exceptional properties for unforgettable getaways.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Beach villa with ocean view" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Beach Villas</h3>
+                        <p>Private coastal retreats with stunning ocean views.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Mountain lodge in nature" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Mountain Lodges</h3>
+                        <p>Secluded nature escapes in Africa's highlands.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Cultural accommodation" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Cultural Stays</h3>
+                        <p>Authentic accommodations that immerse you in local traditions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lifestyle Management with Images -->
+    <section id="lifestyle" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Lifestyle Management</h2>
+                <p>Comprehensive services to elevate every aspect of your life.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Personal assistant helping client" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Personal Assistance</h3>
+                        <p>Dedicated support for your daily needs and special requests.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Art gallery exhibition" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Event Planning</h3>
+                        <p>Impeccably executed celebrations and gatherings.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1535131749006-b7f58c99034b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Golf course scenery" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Membership Access</h3>
+                        <p>Exclusive entry to private clubs and premium venues.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concierge Services with Images -->
+    <section id="concierge" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Concierge Services</h2>
+                <p>Specialized in you. Our mission is to make you feel special and taken care of.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Travel coordination" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Travel Coordination</h3>
+                        <p>Seamless logistics for stress-free journeys.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Elegant fine dining setting with gourmet cuisine" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Dining Reservations</h3>
+                        <p>Enjoy access to the most sought-after tables worldwide.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-card-image-container">
+                        <img src="/DSC04802-HDR.jpg" 
+                             alt="Red Ferrari sports car" 
+                             class="service-card-image">
+                    </div>
+                    <div class="service-card-content">
+                        <h3>Special Requests</h3>
+                        <p>From luxury sports cars to exclusive experiences - no demand is too extraordinary for our team.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-container">
+                <h2>Contact Us</h2>
+                <p>Let's discover Africa and the world together and embrace the art of greater living with OSHI XII.</p>
+        
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>Location</h3>
+                        <p>HQ: Cape Town</p>
+                        <p>Livingstone, Zambia</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Phone</h3>
+                        <a href="tel:+27718462380" class="phone-link">+27 718 462 380</a>
+                        <a href="tel:+260977967804" class="phone-link">+26 977 967 804</a>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <p><a href="mailto:info@oshixii.com" class="email-link">info@oshixii.com</a></p>
+                        <p><a href="mailto:Saidy@oshixii.com" class="email-link">Saidy@oshixii.com</a></p>
+                    </div>
+                </div>
+                
+                <div class="contact-social">
+                    <a href="https://instagram.com/oshixii" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://x.com/oshixii" target="_blank" rel="noopener noreferrer" aria-label="X (formerly Twitter)">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com/company/oshixii" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://facebook.com/oshixii" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+                
+                <div class="contact-btn-container">
+                    <button class="btn btn-filled" id="contact-btn" style="color: var(--black);">Send Inquiry</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popup Form -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-content">
+            <button class="close-popup" id="close-popup">&times;</button>
+            <h2>Contact Us</h2>
+            <p>Begin your journey to greater living today.</p>
+            
+            <form id="inquiry-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <div class="form-group">
+                    <label for="interest">Interest</label>
+                    <select id="interest" name="interest">
+                        <option value="">Select an option</option>
+                        <option value="properties">Properties & Experiences</option>
+                        <option value="nutrition">Nutrition & Longevity</option>
+                        <option value="vacation">Vacation Rentals</option>
+                        <option value="lifestyle">Lifestyle Management</option>
+                        <option value="concierge">Concierge Services</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-filled" style="color: var(--black);">Submit Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 OSHI XII - Greater Living. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const menuOverlay = document.querySelector('.menu-overlay');
+        
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        });
+        
+        menuOverlay.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            });
+        });
+        
+        // Popup Form Toggle
+        const openInquiryBtn = document.getElementById('open-inquiry');
+        const contactBtn = document.getElementById('contact-btn');
+        const popupOverlay = document.getElementById('popup-overlay');
+        const closePopup = document.getElementById('close-popup');
+        
+        openInquiryBtn.addEventListener('click', () => {
+            popupOverlay.style.display = 'flex';
+        });
+        
+        contactBtn.addEventListener('click', () => {
+            popupOverlay.style.display = 'flex';
+        });
+        
+        closePopup.addEventListener('click', () => {
+            popupOverlay.style.display = 'none';
+        });
+        
+        popupOverlay.addEventListener('click', (e) => {
+            if (e.target === popupOverlay) {
+                popupOverlay.style.display = 'none';
+            }
+        });
+        
+        // Form Submission
+        const inquiryForm = document.getElementById('inquiry-form');
+        inquiryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Here you would typically send the form data to your server
+            alert('Thank you for your inquiry! We will contact you soon.');
+            popupOverlay.style.display = 'none';
+            inquiryForm.reset();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Style email links
+        const emailLinks = document.querySelectorAll('.email-link');
+        emailLinks.forEach(link => {
+            link.style.color = 'inherit';
+            link.style.textDecoration = 'none';
+            link.style.transition = 'color 0.3s ease';
+            link.addEventListener('mouseover', () => {
+                link.style.color = 'var(--dark-beige)';
+            });
+            link.addEventListener('mouseout', () => {
+                link.style.color = 'inherit';
+            });
+        });
+        
+        // Detect if user is on mobile device
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+        
+        // Make phone numbers clickable and responsive
+        const phoneLinks = document.querySelectorAll('.phone-link');
+        phoneLinks.forEach(link => {
+            // Add click event for mobile devices
+            if (isMobileDevice()) {
+                link.addEventListener('click', function(e) {
+                    // On mobile, let the default behavior (tel: link) handle the call
+                    // No need to prevent default
+                });
+            } else {
+                // On desktop, show the number in an alert
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert(`Please call: ${link.textContent.trim()}`);
+                });
+            }
+            
+            // Add hover effects
+            link.addEventListener('mouseover', () => {
+                link.style.color = 'var(--dark-beige)';
+            });
+            link.addEventListener('mouseout', () => {
+                link.style.color = 'inherit';
+            });
+        });
+    </script>
+</body>
+</html>
